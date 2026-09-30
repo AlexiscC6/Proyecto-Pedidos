@@ -1,0 +1,16 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+body { background-color: #f4f4f9; color: #333; }
+header { background-color: #2e7d32; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+.container { display: flex; max-width: 1200px; margin: 2rem auto; gap: 2rem; padding: 0 1rem; }
+.menu-principal { flex: 3; }
+.seccion-titulo { color: #2e7d32; margin-bottom: 1rem; font-size: 1.4rem; border-bottom: 2px solid #ddd; padding-bottom: 0.3rem; }
+.catalogo { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; }
+.card img { width: 100%; height: 140px; object-fit: cover; border-radius: 4px; }
+.card h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+.card p { font-size: 0.85rem; color: #666; margin-bottom: 0.5rem; }
+.precio { font-weight: bold; color: #2e7d32; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.btn { background-color: #2e7d32; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+.btn:hover { background-color: #1b5e20; }
+.carrito { flex: 1; background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; position: sticky; top: 2rem; }
+.carrito h2 { margin-bottom: 1rem; font-size: 1.3rem; border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
