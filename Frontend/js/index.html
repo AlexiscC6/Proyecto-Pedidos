@@ -4,110 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="logo1/jpg" href="../Img/logo1.jpg">
     <title>Antojo Express - Sistema de Pedidos</title>
-    <!--enlace de CSS-->
+    <!-- Enlace de CSS -->
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
     <header>
-        <h1>🍲 Antojo Express</h1>
-        <nav>🛒 Carrito (0)</nav>
+        <div class="logo-container" style="display: flex; align-items: center; gap: 40px;">
+            <img src="../Img/logo1.jpg" alt="Antojo Express" style="height: 50px; width: auto;">
+        </div>
+        <h1>Antojo Express</h1>
+        <nav id="contador-carrito">🛒 Carrito (0)</nav>
+        </div>
     </header>
+
     <div class="container">
-
-        <!--Sección de platillos-->
+        <!-- Sección de Menú a la izquierda -->
         <div class="menu-principal">
-            <!--desayunos -->
-            <h2 class="seccion-titulo">🌅 Desayunos</h2>
-            <div class="catalogo">
-                <!--tarjetas de productos-->
-                <div class="card">
-                    <img src="../Img/desayuno.jpg" alt="Desayuno Chapín">
-                    <h3>Desayuno Chapín</h3>
-                    <p>Huevos al gusto, frijolitos volteados, plátanos maduros y queso fresco.</p>
-                    <div class="precio">Q 35.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/pancakes.jpg" alt="Pancakes">
-                    <h3>Pancakes con Miel</h3>
-                    <p>Torre de 3 esponjosos pancakes acompañados de miel de maple y mantequilla.</p>
-                    <div class="precio">Q 30.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/sandwich.jpg" alt="Sándwic de Jamón">
-                    <h3>Sándwic de Jamón</h3>
-                    <p>Pan crujiente con dos revanadas de jamó, tomate y lechuga</p>
-                    <div class="precio">Q 20.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-            </div>
 
-            <!--Almuerzos-->
-            <h2 class="seccion-titulo">🍽️ Almuerzos</h2>
-            <div class="catalogo">
-                <!--productos-->
-                <div class="card">
-                    <img src="../Img/pollo_plancha.jpg" alt="Pechuga a la Plancha">
-                    <h3>Pechuga a la Plancha</h3>
-                    <p>Jugosa pechuga acompañada de puré de papas y vegetales al vapor.</p>
-                    <div class="precio">Q 55.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/cordero.jpg" alt="Cordero Asado">
-                    <h3>Cordero Asado</h3>
-                    <p>Jugosa carne de cordero acompañada de puré papas y vegetales.</p>
-                    <div class="precio">Q 65.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/caldo_res.jpg" alt="Caldo de Res">
-                    <h3>Caldo de Res Tradicional</h3>
-                    <p>Tradicional sopa de res con verduras frescas de la temporada y arroz.</p>
-                    <div class="precio">Q 50.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-            </div>
+            <!-- Desayunos -->
+            <button class="btn-acordeon" onclick="toggleSeccion('contenedor-desayunos', this)">
+                <span>🌅 Desayunos</span>
+                <span class="icono-flecha">▼</span>
+            </button>
+            <div class="catalogo oculto" id="contenedor-desayunos"></div>
 
-            <!-- Cenas-->
-            <h2 class="seccion-titulo">🌙 Cenas</h2>
-            <div class="catalogo">
-                <!--Productos-->
-                <div class="card">
-                    <img src="../Img/hamburguesa.jpg" alt="Hamburguesa">
-                    <h3>Hamburguesa Clásica</h3>
-                    <p>Jugosa carne a la parrilla con queso cheddar, lechuga y tomate.</p>
-                    <div class="precio">Q 45.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/tacos.jpg" alt="Tacos">
-                    <h3>Tacos de Carnitas (3 pzas)</h3>
-                    <p>Tortillas de maíz con carnitas doraditas, cebolla, cilantro y salsa de la casa.</p>
-                    <div class="precio">Q 40.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-                <div class="card">
-                    <img src="../Img/pizza.jpg" alt="Pizza">
-                    <h3>Pizza Pepperoni Personal</h3>
-                    <p>Masa crujiente, salsa de tomate artesanal, doble mozzarella y pepperoni.</p>
-                    <div class="precio">Q 60.00</div>
-                    <button class="btn">Agregar al Carrito</button>
-                </div>
-            </div>
+            <!-- Almuerzos -->
+            <button class="btn-acordeon" onclick="toggleSeccion('contenedor-almuerzos', this)">
+                <span>🍽️ Almuerzos</span>
+                <span class="icono-flecha">▼</span>
+            </button>
+            <div class="catalogo oculto" id="contenedor-almuerzos"></div>
+
+            <!-- Cenas -->
+            <button class="btn-acordeon" onclick="toggleSeccion('contenedor-cenas', this)">
+                <span>🌙 Cenas</span>
+                <span class="icono-flecha">▼</span>
+            </button>
+            <div class="catalogo oculto" id="contenedor-cenas"></div>
+
         </div>
 
-        <!--Checkout o Carrito-->
+        <!-- Panel del Carrito a la derecha -->
         <aside class="carrito">
-            <h2>Tu Pedido</h2>
-            <p style="color: #888; font-size: 0.9rem; margin-bottom: 1rem;">No hay productos seleccionados.</p>
-            <hr style="margin: 1rem 0; border:0; border-top:1px solid #aaa;">
-            <p><strong>Total: Q 0.00</strong></p>
-            <button class="btn" style="width: 100%; margin-top: 1rem;">Confirmar Pedido</button>
+            <h2 style="margin-top: 0; color: #2a8a43;">🛒 Tu Pedido</h2>
+
+            <!-- Contenedor dinámico de los platillos agregados -->
+            <div id="carrito-items">
+                <p style="color: #666; font-size: 0.95rem; margin-bottom: 1rem;">No hay productos seleccionados.</p>
+            </div>
+
+            <hr style="margin: 1.5rem 0; border: 0; border-top: 1px dashed #ccc;">
+
+            <p style="font-size: 1.3rem; margin-bottom: 1.5rem;"><strong>Total: <span id="carrito-total">Q
+                        0.00</span></strong></p>
+            <button class="btn-confirmar" onclick="abrirModalCheckout()">Confirmar Pedido</button>
         </aside>
+    </div> <!-- Cierre correcto de .container -->
+
+    <!-- VENTANA MODAL DE CHECKOUT -->
+    <div id="modal-checkout" class="modal oculto">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+            <h2 style="color: #2a8a43; margin-bottom: 15px;">📋 Finalizar Pedido</h2>
+
+            <form id="form-checkout" onsubmit="enviarPedido(event)">
+                <div style="margin-bottom: 12px; text-align: left;">
+                    <label style="font-weight: bold; font-size: 0.9rem;">Nombre Completo:</label>
+                    <input type="text" id="nombre-cliente" required
+                        style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 12px; text-align: left;">
+                    <label style="font-weight: bold; font-size: 0.9rem;">Correo Electrónico:</label>
+                    <input type="text" id="correo-cliente" required
+                        style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 12px; text-align: left;">
+                    <label style="font-weight: bold; font-size: 0.9rem;">Teléfono:</label>
+                    <input type="tel" id="telefono-cliente" required
+                        style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="font-weight: bold; font-size: 0.9rem;">Dirección de Entrega:</label>
+                    <textarea id="direccion-cliente" required rows="3"
+                        style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; resize: none;"></textarea>
+                </div>
+
+                <button type="submit" class="btn-confirmar">Enviar Pedido</button>
+            </form>
+        </div>
     </div>
+
+    <!-- Script de JavaScript -->
+    <script src="../js/app.js"></script>
 </body>
+
 </html>
