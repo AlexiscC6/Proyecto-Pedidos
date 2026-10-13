@@ -10,7 +10,7 @@ app.use(cors());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '', // Cambia tu contraseña si tienes una configurada
+    password: '',
     database: 'pedidos_db'
 });
 

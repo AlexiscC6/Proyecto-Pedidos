@@ -1,4 +1,4 @@
-/* --- RESET BASE & HEADER --- */
+/* estilos generales */
 * {
     margin: 0;
     padding: 0;
@@ -6,6 +6,7 @@
     font-family: Arial, sans-serif;
 }
 
+/* fondo de la pagina */
 body {
     background-image: url('../Img/fondo.jpg');
     background-size: 40%;
@@ -13,6 +14,7 @@ body {
     background-attachment: fixed;
 }
 
+/* barra de arriba */
 header {
     background: #2a8a43;
     color: #fff;
@@ -22,7 +24,7 @@ header {
     align-items: center;
 }
 
-/* --- ESTRUCTURA PRINCIPAL --- */
+/* contenedor principal */
 .container {
     display: flex;
     gap: 30px;
@@ -36,6 +38,7 @@ header {
     flex: 2;
 }
 
+/* caja del carrito de compras */
 .carrito {
     flex: 1;
     background: #fff;
@@ -48,7 +51,7 @@ header {
     min-width: 300px;
 }
 
-/* --- CATÁLOGO Y TARJETAS (Ajustadas a más angostas) --- */
+/* acomodo de las tarjetas de productos */
 .catalogo {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -56,6 +59,7 @@ header {
     margin: 15px 0 30px;
 }
 
+/* tarjeta de cada producto */
 .card {
     background: #fff;
     border-radius: 10px;
@@ -66,6 +70,7 @@ header {
     flex-direction: column;
 }
 
+/* imagen de la tarjeta */
 .card img {
     width: 100%;
     height: 160px;
@@ -79,6 +84,7 @@ header {
     margin-bottom: 5px;
 }
 
+/* descripcion corta */
 .card p {
     font-size: 0.9rem;
     color: #666;
@@ -86,6 +92,7 @@ header {
     flex-grow: 1;
 }
 
+/* texto del precio */
 .card .precio {
     font-size: 1.2rem;
     font-weight: bold;
@@ -93,7 +100,7 @@ header {
     margin-bottom: 15px;
 }
 
-/* --- BOTONES COMPARTIDOS (.btn y .btn-confirmar) Con texto en negrita --- */
+/* estilos para los botones */
 .btn,
 .btn-confirmar {
     background: #2a8a43;
@@ -112,6 +119,7 @@ header {
     font-size: 0.95rem;
 }
 
+/* boton de confirmar compra */
 .btn-confirmar {
     padding: 12px;
     border-radius: 30px;
@@ -119,6 +127,7 @@ header {
     box-shadow: 0 4px 6px rgba(42, 138, 67, 0.2);
 }
 
+/* efecto al pasar el mouse por los botones */
 .btn:hover,
 .btn-confirmar:hover {
     background: #1e6630;
@@ -128,7 +137,7 @@ header {
     transform: scale(1.03);
 }
 
-/* --- BOTONES DEL ACORDEÓN --- */
+/* boton desplegable */
 .btn-acordeon {
     background: linear-gradient(135deg, #2a8a43, #1a5c2d);
     color: #fff;
@@ -157,20 +166,23 @@ header {
     transform: translateY(0);
 }
 
+/* flecha del menu */
 .icono-flecha {
     transition: transform 0.3s;
     font-size: 1rem;
 }
 
+/* rota la flecha cuando esta activo */
 .btn-acordeon.activo .icono-flecha {
     transform: rotate(180deg);
 }
 
-/* --- UTILIDADES Y RESPONSIVIDAD --- */
+/* para ocultar cosas */
 .oculto {
     display: none !important;
 }
 
+/* diseño para celulares */
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -181,7 +193,7 @@ header {
     }
 }
 
-/* --- ESTILOS DEL MODAL DE CHECKOUT --- */
+/* ventana emergente / modal */
 .modal {
     position: fixed;
     top: 0;
@@ -206,6 +218,7 @@ header {
     text-align: center;
 }
 
+/* boton de cerrar modal */
 .cerrar-modal {
     position: absolute;
     top: 15px;

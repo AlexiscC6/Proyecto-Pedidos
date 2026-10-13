@@ -1,13 +1,14 @@
+// ruta del servidor
 const API_URL = 'http://localhost:3000/api/productos';
 let carrito = [], listaProductosGlobal = [];
 
-// Cargar productos y carrito al iniciar la página
+// ejecuta esto al cargar la pagina
 document.addEventListener('DOMContentLoaded', () => {
     obtenerProductos();
     cargarCarritoLocalStorage();
 });
 
-// 1. Obtener productos del Backend (MySQL)
+// trae los datos de la base de datos
 async function obtenerProductos() {
     try {
         const res = await fetch(API_URL);
@@ -16,7 +17,7 @@ async function obtenerProductos() {
     } catch (err) { console.error('Error al conectar con el backend:', err); }
 }
 
-// 2. Renderizar tarjetas de productos en el HTML según su categoría
+// crea las tarjetas y las mete segun la categoria
 function renderizarProductos(productos) {
     const contDesayunos = document.getElementById('contenedor-desayunos');
     const contAlmuerzos = document.getElementById('contenedor-almuerzos');
@@ -46,7 +47,7 @@ function renderizarProductos(productos) {
     });
 }
 
-// 3. Lógica del Carrito (Agregar y Cambiar Cantidades)
+// mete cosas al carrito
 function agregarAlCarrito(id) {
     const prod = listaProductosGlobal.find(p => p.id === id);
     if (!prod) return;
@@ -57,6 +58,7 @@ function agregarAlCarrito(id) {
     sincronizarCarrito();
 }
 
+// suma o resta productos del carrito
 function cambiarCantidad(id, cambio) {
     const item = carrito.find(i => i.id === id);
     if (!item) return;
@@ -65,17 +67,19 @@ function cambiarCantidad(id, cambio) {
     sincronizarCarrito();
 }
 
-// 4. Sincronización con LocalStorage y UI
+// guarda el carrito para que no se borre al recargar
 function sincronizarCarrito() {
     localStorage.setItem('carrito_antojo_express', JSON.stringify(carrito));
     actualizarInterfazCarrito();
 }
 
+// recupera los datos guardados
 function cargarCarritoLocalStorage() {
     const guardado = localStorage.getItem('carrito_antojo_express');
     if (guardado) { carrito = JSON.parse(guardado); actualizarInterfazCarrito(); }
 }
 
+// dibuja el carrito en la pantalla
 function actualizarInterfazCarrito() {
     const contItems = document.getElementById('carrito-items');
     const textoTotal = document.getElementById('carrito-total');
@@ -112,12 +116,13 @@ function actualizarInterfazCarrito() {
     if (textoTotal) textoTotal.textContent = `Q ${total.toFixed(2)}`;
 }
 
-// 5. Control del Acordeón y Modal de Checkout
+// para mostrar u ocultar las secciones
 function toggleSeccion(idContenedor, btn) {
     document.getElementById(idContenedor).classList.toggle('oculto');
     btn.classList.toggle('activo');
 }
 
+// abre la ventana de cobro
 function abrirModalCheckout() {
     if (carrito.length === 0) {
         alert('El carrito está vacío. Agrega al menos un producto.');
@@ -126,11 +131,12 @@ function abrirModalCheckout() {
     document.getElementById('modal-checkout').classList.remove('oculto');
 }
 
+// cierra la ventana emergente
 function cerrarModal() {
     document.getElementById('modal-checkout').classList.add('oculto');
 }
 
-// 6. Enviar el pedido mediante POST al Backend
+// envia la informacion del formulario a la base de datos
 async function enviarPedido(e) {
     e.preventDefault();
     const datosPedido = {
