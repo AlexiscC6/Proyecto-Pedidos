@@ -1,233 +1,112 @@
-/* estilos generales */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* ESTILOS GENERALES*/
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+/* Fondo de la página con degradado suave */
+body { background: linear-gradient(135deg, #fdfbf7 0%, #f0f7f2 100%); background-attachment: fixed; }
+
+header { background: #2a8a43; color: #fff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+
+.container { display: flex; gap: 30px; max-width: 1200px; margin: 20px auto; padding: 0 20px; align-items: flex-start; }
+
+.menu-principal { flex: 2; }
+
+/*TARJETAS DE CATEGORÍAS*/
+.tarjetas-categorias-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+    gap: 15px; 
+    margin: 25px 0; 
 }
 
-/* fondo de la pagina */
-body {
-    background-image: url('../Img/fondo.jpg');
-    background-size: 40%;
-    background-position: center;
-    background-attachment: fixed;
+.tarjeta-cat {
+    background: #2a8a43; /* Color verde uniforme de la tarjeta */
+    border-radius: 12px; 
+    padding: 12px; 
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(42, 138, 67, 0.2); 
+    cursor: pointer; 
+    transition: all 0.3s ease;
+    border: none; /* Eliminamos el contorno extra para que sea de un solo color */
+    outline: 2px solid rgba(255, 255, 255, 0.6); /* Pequeña línea blanca sobre el margen */
+    outline-offset: -5px; /* Ajusta la línea blanca hacia adentro */
 }
 
-/* barra de arriba */
-header {
-    background: #2a8a43;
-    color: #fff;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.tarjeta-cat:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 20px rgba(42, 138, 67, 0.35); 
+    background: #32a34f; /* Tono ligeramente más vivo al pasar el cursor */
 }
 
-/* contenedor principal */
-.container {
-    display: flex;
-    gap: 30px;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-    align-items: flex-start;
+.tarjeta-cat img { 
+    width: calc(100% - 10px); /* Deja un pequeño espacio en los lados */
+    height: 85px; 
+    object-fit: cover; 
+    border-radius: 35px; 
+    margin: 5px auto 8px auto; /* Centra la imagen y deja margen blanco a las orillas */
+    display: block;
+    background: #ffffff; /* Fondo blanco para generar el espacio visual de margen */
+    padding: 7px; /* Espacio en blanco alrededor de la foto */
+    box-shadow: 0 10px 4px rgba(0, 0, 0, 0.1);
 }
 
-.menu-principal {
-    flex: 2;
+.tarjeta-cat h3 { 
+    font-size: 1.05rem; 
+    color: #ffffff; /* Letras blancas resaltadas */
+    font-weight: bold; 
+    margin: 0; 
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); 
 }
-
-/* caja del carrito de compras */
+/* CARRITO DE COMPRAS*/
 .carrito {
-    flex: 1;
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #e0e0e0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    position: sticky;
-    top: 20px;
-    min-width: 300px;
+    flex: 1; background: #fff; padding: 25px; border-radius: 12px;
+    border: 1px solid #e0e0e0; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: sticky; top: 20px; min-width: 300px;
 }
 
-/* acomodo de las tarjetas de productos */
-.catalogo {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-    gap: 20px;
-    margin: 15px 0 30px;
-}
+/*CATÁLOGO Y PRODUCTOS*/
+.catalogo { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 20px; margin: 15px 0 30px; }
 
-/* tarjeta de cada producto */
 .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+    background: #fff; border-radius: 10px; padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column;
+    border: 1.5px solid #d4ebd9; /* Contorno verde claro y elegante para los platillos */
 }
+.card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+.card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+.card p { font-size: 0.9rem; color: #666; margin-bottom: 10px; flex-grow: 1; }
+.card .precio { font-size: 1.2rem; font-weight: bold; color: #2a8a43; margin-bottom: 15px; }
 
-/* imagen de la tarjeta */
-.card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
+/*BOTONES*/
+.btn, .btn-confirmar { background: #2a8a43; color: #fff; border: none; width: 100%; cursor: pointer; transition: all 0.3s; text-align: center; font-weight: bold; }
+.btn { padding: 10px; border-radius: 5px; font-size: 0.95rem; }
+.btn-confirmar { padding: 12px; border-radius: 30px; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(42,138,67,0.2); }
 
-.card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
+.btn:hover, .btn-confirmar:hover { background: #1e6630; }
+.btn-confirmar:hover { transform: scale(1.03); }
 
-/* descripcion corta */
-.card p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 10px;
-    flex-grow: 1;
-}
-
-/* texto del precio */
-.card .precio {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #2a8a43;
-    margin-bottom: 15px;
-}
-
-/* estilos para los botones */
-.btn,
-.btn-confirmar {
-    background: #2a8a43;
-    color: #fff;
-    border: none;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-align: center;
-    font-weight: bold;
-}
-
-.btn {
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 0.95rem;
-}
-
-/* boton de confirmar compra */
-.btn-confirmar {
-    padding: 12px;
-    border-radius: 30px;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 6px rgba(42, 138, 67, 0.2);
-}
-
-/* efecto al pasar el mouse por los botones */
-.btn:hover,
-.btn-confirmar:hover {
-    background: #1e6630;
-}
-
-.btn-confirmar:hover {
-    transform: scale(1.03);
-}
-
-/* boton desplegable */
+/* Botón desplegable (Acordeón) */
 .btn-acordeon {
-    background: linear-gradient(135deg, #2a8a43, #1a5c2d);
-    color: #fff;
-    cursor: pointer;
-    padding: 16px 24px;
-    width: 100%;
-    border: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 10px;
-    margin: 20px 0 15px;
-    box-shadow: 0 4px 10px rgba(42, 138, 67, 0.3);
-    transition: all 0.3s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background: linear-gradient(135deg, #2a8a43, #1a5c2d); color: #fff; cursor: pointer;
+    padding: 16px 24px; width: 100%; border: none; font-size: 1.2rem; font-weight: bold;
+    border-radius: 10px; margin: 20px 0 15px; box-shadow: 0 4px 10px rgba(42,138,67,0.3);
+    transition: all 0.3s; display: flex; justify-content: space-between; align-items: center;
 }
+.btn-acordeon:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(42,138,67,0.4); background: linear-gradient(135deg, #32a34f, #1f6e35); }
+.btn-acordeon:active { transform: translateY(0); }
 
-.btn-acordeon:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(42, 138, 67, 0.4);
-    background: linear-gradient(135deg, #32a34f, #1f6e35);
-}
+.icono-flecha { transition: transform 0.3s; font-size: 1rem; }
+.btn-acordeon.activo .icono-flecha { transform: rotate(180deg); }
 
-.btn-acordeon:active {
-    transform: translateY(0);
-}
+.oculto { display: none !important; }
 
-/* flecha del menu */
-.icono-flecha {
-    transition: transform 0.3s;
-    font-size: 1rem;
-}
+/* VENTANA MODAL*/
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-contenido { background-color: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; text-align: center; }
+.cerrar-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #888; }
+.cerrar-modal:hover { color: #333; }
 
-/* rota la flecha cuando esta activo */
-.btn-acordeon.activo .icono-flecha {
-    transform: rotate(180deg);
-}
-
-/* para ocultar cosas */
-.oculto {
-    display: none !important;
-}
-
-/* diseño para celulares */
+/* DISEÑO RESPONSIVO*/
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .carrito {
-        width: 100%;
-    }
-}
-
-/* ventana emergente / modal */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-contenido {
-    background-color: white;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
-    text-align: center;
-}
-
-/* boton de cerrar modal */
-.cerrar-modal {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #888;
-}
-
-.cerrar-modal:hover {
-    color: #333;
+    .container { flex-direction: column; }
+    .carrito { width: 100%; }
 }

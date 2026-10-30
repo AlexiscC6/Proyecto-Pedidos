@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Antojo Express</title>
+  <link rel="icon" type="admin/jpg" href="../Img/logo1.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { background: #f4f7f6; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        header { background: #2a8a43; color: white; padding: 15px 30px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .admin-container { max-width: 1100px; margin: 30px auto; display: flex; flex-direction: column; gap: 30px; }
+        .card-admin { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        h2 { color: #2a8a43; margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 0.95rem; }
+        th { background: #f8fafc; color: #333; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-weight: bold; margin-bottom: 5px; font-size: 0.9rem; }
+        .form-group input, .form-group select { padding: 9px; border: 1px solid #ccc; border-radius: 5px; }
+        .btn-admin { background: #2a8a43; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        .btn-admin:hover { background: #226f35; }
+        .btn-secundario { background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px; margin-left: 10px; display: none; }
+        .btn-secundario:hover { background: #5a6268; }
+        select.estado-select { padding: 6px; border-radius: 4px; font-weight: bold; }
+        .btn-accion { padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; border: none; color: white; font-weight: bold; margin-right: 5px; }
+        .btn-editar { background: #f39c12; }
+        .btn-editar:hover { background: #d68910; }
+        .btn-eliminar { background: #e74c3c; }
+        .btn-eliminar:hover { background: #c0392b; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="../Img/admin.jpg" alt="Panel de Administración - Antojo Express" style="height: 170px; width: auto;">
+        <h1>Panel de Administración - Antojo Express</h1> 
+        <a href="index.html" style="color: white; text-decoration: none; font-weight: bold;">← Volver al Sitio Web</a>
+    </header>
+
+    <div class="admin-container">
+
+        <!-- 1. RESUMEN DE VENTAS POR CATEGORÍA -->
+        <div class="card-admin">
+            <h2>📊 Resumen de Ventas por Categoría</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Platillos Vendidos</th>
+                        <th>Total Recaudado</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-resumen-ventas">
+                    <tr><td colspan="3" style="text-align: center; color: #666;">Cargando resumen...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. GESTIÓN DE PEDIDOS (ESTADOS) -->
+        <div class="card-admin">
+            <h2>📋 Gestión de Pedidos y Estados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Teléfono</th>
+                        <th>Total</th>
+                        <th>Pago</th>
+                        <th>Fecha</th>
+                        <th>Estado Actual</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-pedidos-admin">
+                    <tr><td colspan="8" style="text-align: center; color: #666;">Cargando pedidos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 3. FORMULARIO PARA AGREGAR / EDITAR PRODUCTOS -->
+        <div class="card-admin">
+            <h2 id="titulo-form-platillo">➕ Agregar Nuevo Platillo al Menú</h2>
+            <form id="form-nuevo-producto" onsubmit="guardarOActualizarProducto(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre del Platillo:</label>
+                        <input type="text" id="nuevo-nombre" required placeholder="Ej. Churrasco Chapín">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <input type="text" id="nuevo-descripcion" required placeholder="Ej. Acompañado de chorizo, guacamole...">
+                    </div>
+                    <div class="form-group">
+                        <label>Precio (Q):</label>
+                        <input type="number" step="0.01" id="nuevo-precio" required placeholder="45.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="nuevo-categoria" required>
+                            <option value="Desayunos">Desayunos</option>
+                            <option value="Almuerzos">Almuerzos</option>
+                            <option value="Cenas">Cenas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de la Imagen:</label>
+                        <input type="text" id="nuevo-imagen" required placeholder="ejemplo.jpg">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="btn-guardar-platillo" class="btn-admin">Guardar Platillo</button>
+                    <button type="button" id="btn-cancelar-edicion" class="btn-secundario" onclick="cancelarEdicion()">Cancelar Edición</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 4. TABLA DE GESTIÓN DE PRODUCTOS EXISTENTES (EDITAR / ELIMINAR) -->
+        <div class="card-admin">
+            <h2>📋 Gestión de Platillos del Menú</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th style="text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-productos-body">
+                    <tr><td colspan="5" style="text-align: center; color: #666;">Cargando platillos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        let idPlatilloEnEdicion = null; // Variable para saber si estamos editando
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarResumenVentas();
+            cargarPedidosAdmin();
+            cargarProductosAdmin();
+        });
+
+        async function cargarResumenVentas() {
+            try {
+                const res = await fetch('http://localhost:3000/api/admin/resumen-ventas');
+                const datos = await res.json();
+                const tbody = document.getElementById('tabla-resumen-ventas');
+                tbody.innerHTML = '';
+
+                if (datos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #666;">Aún no hay ventas registradas.</td></tr>`;
+                    return;
+                }
+
+                datos.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${row.categoria}</strong></td>
+                        <td>${row.total_vendidos} unidades</td>
+                        <td><strong>Q ${parseFloat(row.total_recaudado).toFixed(2)}</strong></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error al cargar ventas:', err);
+            }
+        }
+
+        async function cargarPedidosAdmin() {
+            try {
+                const res = await fetch('http://localhost:3000/api/admin/pedidos');
+                const pedidos = await res.json();
+                const tbody = document.getElementById('tabla-pedidos-admin');
+                tbody.innerHTML = '';
+
+                if (pedidos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #666;">No hay pedidos registrados.</td></tr>`;
+                    return;
+                }
+
+                pedidos.forEach(p => {
+                    const tr = document.createElement('tr');
+                    const fechaFormateada = new Date(p.fecha_registro).toLocaleString();
+                    tr.innerHTML = `
+                        <td>#${p.id}</td>
+                        <td>${p.cliente}</td>
+                        <td>${p.telefono}</td>
+                        <td>Q ${parseFloat(p.total).toFixed(2)}</td>
+                        <td>${p.metodo_pago}</td>
+                        <td style="font-size: 0.85rem; color: #555;">${fechaFormateada}</td>
+                        <td>
+                            <select id="estado-${p.id}" class="estado-select">
+                                <option value="Recibido" ${p.estado === 'Recibido' ? 'selected' : ''}>Recibido</option>
+                                <option value="En camino" ${p.estado === 'En camino' ? 'selected' : ''}>En camino</option>
+                                <option value="Entregado" ${p.estado === 'Entregado' ? 'selected' : ''}>Entregado</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button onclick="actualizarEstado(${p.id})" style="background: #2a8a43; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Actualizar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error al cargar pedidos:', err);
+            }
+        }
+
+        async function actualizarEstado(idPedido) {
+            const nuevoEstado = document.getElementById(`estado-${idPedido}`).value;
+            try {
+                const res = await fetch(`http://localhost:3000/api/admin/pedidos/${idPedido}/estado`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ estado: nuevoEstado })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('¡Estado del pedido actualizado con éxito!');
+                    cargarPedidosAdmin();
+                } else {
+                    alert('Error al actualizar el estado.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error de conexión con el servidor.');
+            }
+        }
+
+        // Cargar Platillos en la Tabla de Gestión
+        async function cargarProductosAdmin() {
+            try {
+                const res = await fetch('http://localhost:3000/api/productos');
+                const productos = await res.json();
+                const tbody = document.getElementById('lista-productos-body');
+                tbody.innerHTML = '';
+
+                if (productos.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #666;">No hay platillos registrados en el menú.</td></tr>`;
+                    return;
+                }
+
+                productos.forEach(p => {
+                    const tr = document.createElement('tr');
+                    // Limpiamos la ruta de la imagen por si viene con 'Img/' o 'img/' para que el input muestre solo el nombre del archivo
+                    const nombreImg = p.imagen_url ? p.imagen_url.replace(/^Img\/|^img\//i, '') : '';
+                    
+                    tr.innerHTML = `
+                        <td>#${p.id}</td>
+                        <td><strong>${p.nombre}</strong></td>
+                        <td>${p.categoria}</td>
+                        <td>Q ${parseFloat(p.precio).toFixed(2)}</td>
+                        <td style="text-align: center;">
+                            <button class="btn-accion btn-editar" onclick="prepararEdicion(${p.id}, '${p.nombre.replace(/'/g, "\\'")}', '${p.descripcion.replace(/'/g, "\\'")}', ${p.precio}, '${p.categoria}', '${nombreImg}')">Editar</button>
+                            <button class="btn-accion btn-eliminar" onclick="eliminarPlatillo(${p.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                console.error('Error al cargar platillos:', err);
+            }
+        }
+
+        //Guardar (Nuevo) o Actualizar Platillo
+        async function guardarOActualizarProducto(e) {
+            e.preventDefault();
+            
+            const imagenInput = document.getElementById('nuevo-imagen').value.trim();
+            const productoData = {
+                nombre: document.getElementById('nuevo-nombre').value,
+                descripcion: document.getElementById('nuevo-descripcion').value,
+                precio: parseFloat(document.getElementById('nuevo-precio').value),
+                categoria: document.getElementById('nuevo-categoria').value,
+                imagen_url: imagenInput.toLowerCase().startsWith('img/') ? imagenInput : `Img/${imagenInput}`
+            };
+
+            try {
+                let url = 'http://localhost:3000/api/productos';
+                let method = 'POST';
+
+                if (idPlatilloEnEdicion !== null) {
+                    // Si estamos editando, cambiamos la ruta y el método a PUT
+                    url = `http://localhost:3000/api/productos/${idPlatilloEnEdicion}`;
+                    method = 'PUT';
+                }
+
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(productoData)
+                });
+                const data = await res.json();
+
+                if (data.success || res.ok) {
+                    alert(idPlatilloEnEdicion !== null ? '¡Platillo actualizado exitosamente!' : '¡Platillo agregado al menú exitosamente!');
+                    cancelarEdicion();
+                    cargarProductosAdmin();
+                    cargarResumenVentas();
+                } else {
+                    alert('Error al guardar el platillo.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error de conexión con el servidor.');
+            }
+        }
+
+        //Cargar datos al formulario para editar
+        window.prepararEdicion = function(id, nombre, descripcion, precio, categoria, imagen) {
+            idPlatilloEnEdicion = id;
+            document.getElementById('nuevo-nombre').value = nombre;
+            document.getElementById('nuevo-descripcion').value = descripcion;
+            document.getElementById('nuevo-precio').value = precio;
+            document.getElementById('nuevo-categoria').value = categoria;
+            document.getElementById('nuevo-imagen').value = imagen;
+
+            // Cambiar textos y mostrar botón de cancelar
+            document.getElementById('titulo-form-platillo').innerText = '✏️ Editar Platillo Existente';
+            document.getElementById('btn-guardar-platillo').innerText = 'Actualizar Platillo';
+            document.getElementById('btn-cancelar-edicion').style.display = 'inline-block';
+
+            // Subir la vista suavemente hacia el formulario
+            window.scrollTo({ top: document.getElementById('form-nuevo-producto').offsetTop - 50, behavior: 'smooth' });
+        }
+
+        //Cancelar modo edición
+        window.cancelarEdicion = function() {
+            idPlatilloEnEdicion = null;
+            document.getElementById('form-nuevo-producto').reset();
+            document.getElementById('titulo-form-platillo').innerText = '➕ Agregar Nuevo Platillo al Menú';
+            document.getElementById('btn-guardar-platillo').innerText = 'Guardar Platillo';
+            document.getElementById('btn-cancelar-edicion').style.display = 'none';
+        }
+
+        //Función para eliminar un platillo
+        async function eliminarPlatillo(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este platillo?')) {
+                try {
+                    const respuesta = await fetch(`http://localhost:3000/api/productos/${id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (respuesta.ok) {
+                        alert('Platillo eliminado correctamente');
+                        cargarProductosAdmin();
+                        cargarResumenVentas();
+                    } else {
+                        alert('Hubo un error al eliminar el producto');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error de conexión con el servidor.');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

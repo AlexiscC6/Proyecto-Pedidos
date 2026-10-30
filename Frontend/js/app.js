@@ -116,7 +116,7 @@ function actualizarInterfazCarrito() {
     if (textoTotal) textoTotal.textContent = `Q ${total.toFixed(2)}`;
 }
 
-// para mostrar u ocultar las secciones
+// para mostrar u ocultar las secciones mediante los acordeones
 function toggleSeccion(idContenedor, btn) {
     document.getElementById(idContenedor).classList.toggle('oculto');
     btn.classList.toggle('activo');
@@ -141,9 +141,10 @@ async function enviarPedido(e) {
     e.preventDefault();
     const datosPedido = {
         nombre: document.getElementById('nombre-cliente').value,
-        correo: document.getElementById('correo-cliente').value,
+        fecha_nacimiento: document.getElementById('fecha-nacimiento-cliente').value,
         telefono: document.getElementById('telefono-cliente').value,
         direccion: document.getElementById('direccion-cliente').value,
+        metodo_pago: document.getElementById('metodo-pago-cliente').value,
         total: carrito.reduce((acc, i) => acc + (i.precio * i.cantidad), 0),
         productos: carrito
     };
@@ -164,4 +165,63 @@ async function enviarPedido(e) {
             document.getElementById('form-checkout').reset();
         } else { alert('Error al procesar el pedido.'); }
     } catch (err) { console.error(err); alert('Error de conexión con el servidor.'); }
+}
+
+// FUNCIÓN: Muestra el menú debajo de las tarjetas y activa el botón flotante fijo
+function seleccionarCategoriaPorTarjeta(categoriaSeleccionada) {
+    const contenedorDinamico = document.getElementById('contenedor-tarjetas-dinamico');
+    const contenedorBtnFlotante = document.getElementById('contenedor-btn-flotante');
+    
+    // Si el contenedor ya está abierto con esta misma categoría, lo cerramos
+    if (!contenedorDinamico.classList.contains('oculto') && contenedorDinamico.dataset.categoriaActual === categoriaSeleccionada) {
+        cerrarMenuDinamico();
+        return;
+    }
+
+    // Filtramos los productos según la categoría seleccionada
+    const productosFiltrados = listaProductosGlobal.filter(prod => 
+        prod.categoria.toLowerCase().includes(categoriaSeleccionada.toLowerCase().slice(0, -1))
+    );
+
+    // Dibujamos las tarjetas de platillos en el contenedor dinámico inferior
+    contenedorDinamico.innerHTML = '';
+    
+    if (productosFiltrados.length === 0) {
+        contenedorDinamico.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #666; padding: 20px;">No hay platillos disponibles en esta categoría.</p>`;
+    } else {
+        productosFiltrados.forEach(prod => {
+            const tarjeta = document.createElement('div');
+            tarjeta.classList.add('card'); 
+            const img = `../Img/${prod.imagen_url.split('/').pop()}`;
+
+            tarjeta.innerHTML = `
+                <img src="${img}" alt="${prod.nombre}">
+                <h3>${prod.nombre}</h3>
+                <p>${prod.descripcion}</p>
+                <div class="precio">Q ${parseFloat(prod.precio).toFixed(2)}</div>
+                <button class="btn" onclick="agregarAlCarrito(${prod.id})">Agregar al Carrito</button>
+            `;
+            contenedorDinamico.appendChild(tarjeta);
+        });
+    }
+
+    // Mostramos el contenedor inferior, guardamos el estado y activamos el botón flotante fijo
+    contenedorDinamico.classList.remove('oculto');
+    contenedorDinamico.dataset.categoriaActual = categoriaSeleccionada;
+    if (contenedorBtnFlotante) contenedorBtnFlotante.classList.remove('oculto');
+
+    // Desplazamiento suave hacia el menú recién abierto debajo de las tarjetas
+    contenedorDinamico.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Función para cerrar y limpiar el menú dinámico inferior y ocultar el botón flotante
+function cerrarMenuDinamico() {
+    const contenedorDinamico = document.getElementById('contenedor-tarjetas-dinamico');
+    const contenedorBtnFlotante = document.getElementById('contenedor-btn-flotante');
+
+    contenedorDinamico.classList.add('oculto');
+    contenedorDinamico.dataset.categoriaActual = '';
+    contenedorDinamico.innerHTML = '';
+    
+    if (contenedorBtnFlotante) contenedorBtnFlotante.classList.add('oculto');
 }

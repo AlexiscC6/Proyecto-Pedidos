@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="logo1/jpg" href="../Img/logo1.jpg">
+    <link rel="icon" type="logo1/jpg" href="../Img/logo.jpg">
     <title>Antojo Express - Sistema de Pedidos</title>
     <!-- Enlace de CSS -->
     <link rel="stylesheet" href="../css/style.css">
@@ -13,37 +13,53 @@
 <body>
     <header>
         <div class="logo-container" style="display: flex; align-items: center; gap: 40px;">
-            <img src="../Img/logo1.jpg" alt="Antojo Express" style="height: 50px; width: auto;">
+            <img src="../Img/logo.jpg" alt="Antojo Express" style="height: 50px; width: auto;">
         </div>
         <h1>Antojo Express</h1>
         <nav id="contador-carrito">🛒 Carrito (0)</nav>
-        </div>
     </header>
 
     <div class="container">
         <!-- Sección de Menú a la izquierda -->
         <div class="menu-principal">
 
-            <!-- Desayunos -->
+            <!-- Filtros originales de acordeón (superiores) -->
             <button class="btn-acordeon" onclick="toggleSeccion('contenedor-desayunos', this)">
                 <span>🌅 Desayunos</span>
                 <span class="icono-flecha">▼</span>
             </button>
             <div class="catalogo oculto" id="contenedor-desayunos"></div>
 
-            <!-- Almuerzos -->
             <button class="btn-acordeon" onclick="toggleSeccion('contenedor-almuerzos', this)">
                 <span>🍽️ Almuerzos</span>
                 <span class="icono-flecha">▼</span>
             </button>
             <div class="catalogo oculto" id="contenedor-almuerzos"></div>
 
-            <!-- Cenas -->
             <button class="btn-acordeon" onclick="toggleSeccion('contenedor-cenas', this)">
                 <span>🌙 Cenas</span>
                 <span class="icono-flecha">▼</span>
             </button>
             <div class="catalogo oculto" id="contenedor-cenas"></div>
+
+            <!-- Tarjetas de acceso rápido interactivas -->
+            <div class="tarjetas-categorias-grid">
+                <div class="tarjeta-cat" onclick="seleccionarCategoriaPorTarjeta('Desayunos')">
+                    <img src="../Img/desayuno.jpg" alt="Desayunos">
+                    <h3>Desayunos</h3>
+                </div>
+                <div class="tarjeta-cat" onclick="seleccionarCategoriaPorTarjeta('Almuerzos')">
+                    <img src="../Img/cordero.jpg" alt="Almuerzos">
+                    <h3>Almuerzos</h3>
+                </div>
+                <div class="tarjeta-cat" onclick="seleccionarCategoriaPorTarjeta('Cenas')">
+                    <img src="../Img/tacos.jpg" alt="Cenas">
+                    <h3>Cenas</h3>
+                </div>
+            </div>
+
+            <!-- Contenedor dinámico exclusivo para las tarjetas -->
+            <div class="catalogo oculto" id="contenedor-tarjetas-dinamico"></div>
 
         </div>
 
@@ -59,10 +75,17 @@
             <hr style="margin: 1.5rem 0; border: 0; border-top: 1px dashed #ccc;">
 
             <p style="font-size: 1.3rem; margin-bottom: 1.5rem;"><strong>Total: <span id="carrito-total">Q
-                        0.00</span></strong></p>
+                    0.00</span></strong></p>
             <button class="btn-confirmar" onclick="abrirModalCheckout()">Confirmar Pedido</button>
         </aside>
     </div> <!-- Cierre correcto de .container -->
+
+    <!-- BOTÓN FLOTANTE FIJO PARA CERRAR EL MENÚ ACTIVO -->
+    <div id="contenedor-btn-flotante" class="oculto" style="position: fixed; bottom: 25px; right: 25px; z-index: 999; box-shadow: 0 6px 20px rgba(0,0,0,0.3); border-radius: 30px;">
+        <button class="btn-confirmar" onclick="cerrarMenuDinamico()" style="background: #2a8a43; padding: 14px 28px; font-size: 1rem; border-radius: 30px; border: 2px solid #ffffff; cursor: pointer;">
+            ✕ Cerrar Menú Activo
+        </button>
+    </div>
 
     <!-- VENTANA MODAL DE CHECKOUT -->
     <div id="modal-checkout" class="modal oculto">
@@ -78,8 +101,8 @@
                 </div>
 
                 <div style="margin-bottom: 12px; text-align: left;">
-                    <label style="font-weight: bold; font-size: 0.9rem;">Correo Electrónico:</label>
-                    <input type="text" id="correo-cliente" required
+                    <label style="font-weight: bold; font-size: 0.9rem;">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha-nacimiento-cliente" required
                         style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
                 </div>
 
@@ -89,10 +112,20 @@
                         style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;">
                 </div>
 
-                <div style="margin-bottom: 20px; text-align: left;">
+                <div style="margin-bottom: 12px; text-align: left;">
                     <label style="font-weight: bold; font-size: 0.9rem;">Dirección de Entrega:</label>
                     <textarea id="direccion-cliente" required rows="3"
                         style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; resize: none;"></textarea>
+                </div>
+
+                <div style="margin-bottom: 20px; text-align: left;">
+                    <label style="font-weight: bold; font-size: 0.9rem;">Método de Pago:</label>
+                    <select id="metodo-pago-cliente" required
+                        style="width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; background: #fff;">
+                        <option value="" disabled selected>Selecciona un método de pago</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta POS">Tarjeta POS</option>
+                    </select>
                 </div>
 
                 <button type="submit" class="btn-confirmar">Enviar Pedido</button>
